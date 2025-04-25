@@ -6,7 +6,13 @@ public class Tests {
     static String[][] solutions = new String[][]{
             {new P001().run(), "233168"},
             {new P002().run(), "4613732"},
-            {new P003().run(), "6857"}
+            {new P003().run(), "6857"},
+            {new P004().run(), "906609"},
+            {new P005().run(), "232792560"},
+            {new P006().run(), "25164150"},
+            {new P007().run(), "104743"},
+            {new P008().run(), "23514624000"},
+            {new P009().run(), "31875000"}
     };
 
     public static String getNameOfProblemFromIndex(int index) {

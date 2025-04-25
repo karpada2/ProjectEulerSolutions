@@ -10,6 +10,14 @@ public class UtilLibrary {
         return newArr;
     }
 
+    public static String reverse(String str) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = str.length()-1; i >= 0; i--) {
+            builder.append(str.charAt(i));
+        }
+        return builder.toString();
+    }
+
     public static int[] join(int[] arr1, int[] arr2) {
         int[] newArr = new int[arr1.length + arr2.length];
         for (int i = 0; i < arr1.length; i++) {
@@ -20,6 +28,7 @@ public class UtilLibrary {
         }
         return newArr;
     }
+
 
     public static int[] toArrayInt(LinkedList<Integer> list) {
         int[] arr = new int[list.size()];
@@ -36,6 +45,7 @@ public class UtilLibrary {
         }
         return arr;
     }
+
 
     // 0 returns 0, 1 returns 1, 2 returns 1, 3 returns 2, 4 returns 3, 5 returns 5, 6 returns 8 and so on
     public static int fibonacci(int n) {
@@ -133,5 +143,12 @@ public class UtilLibrary {
         }
 
         return toArrayInt(factorsSmallerThanSqrt);
+    }
+
+    public static boolean isPalindrome(String str) {
+        String firstHalf = str.substring(0, str.length()/2);
+        String secondHalf = str.substring((str.length()+1)/2);
+
+        return firstHalf.equals(reverse(secondHalf));
     }
 }

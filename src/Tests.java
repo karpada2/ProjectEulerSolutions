@@ -12,7 +12,13 @@ public class Tests {
             {new P006().run(), "25164150"},
             {new P007().run(), "104743"},
             {new P008().run(), "23514624000"},
-            {new P009().run(), "31875000"}
+            {new P009().run(), "31875000"},
+            {new P010().run(), "142913828922"},
+            {new P011().run(), "70600674"},
+            {new P012().run(), "76576500"},
+            {new P013().run(), "5537376230"},
+            {new P014().run(), "837799"},
+            {new P015().run(), "137846528820"}
     };
 
     public static String getNameOfProblemFromIndex(int index) {

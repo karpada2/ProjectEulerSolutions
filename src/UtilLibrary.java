@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -6,10 +7,6 @@ public class UtilLibrary {
 
     public static int charToInt(char c) {
         return c-48;
-    }
-
-    public static char intToChar(int n) {
-        return (char)(n+48);
     }
 
     public static int[] reverse(int[] arr) {
@@ -92,6 +89,32 @@ public class UtilLibrary {
         return curr;
     }
 
+    public static BigInteger fibonacci(BigInteger n) {
+        if (n.equals(BigInteger.ZERO)) {
+            return BigInteger.ZERO;
+        }
+        if (n.equals(BigInteger.ONE)) {
+            return BigInteger.ONE;
+        }
+        if (n.equals(BigInteger.TWO)) {
+            return BigInteger.ONE;
+        }
+        if (n.equals(BigInteger.valueOf(3))) {
+            return BigInteger.TWO;
+        }
+        BigInteger oneBeforeLast = BigInteger.ZERO; // fibonacci(i-2)
+        BigInteger last = BigInteger.ONE; // fibonacci(i-1)
+        BigInteger curr = oneBeforeLast.add(last); // fibonacci(i)
+
+        for (BigInteger i = BigInteger.ZERO; i.compareTo(n.subtract(BigInteger.ONE)) < 0; i=i.add(BigInteger.ONE)) {
+            last = curr;
+            curr = oneBeforeLast.add(last);
+            oneBeforeLast = last;
+        }
+
+        return curr;
+    }
+
     public static boolean isPrime(int n) {
         if (n == 0) {
             return false;
@@ -168,7 +191,9 @@ public class UtilLibrary {
         for (int i = 1; i < (int)(Math.sqrt(n))+1; i++) {
             if (n%i == 0) {
                 firstHalfOfDivisors.add(i);
-                secondHalfOfDivisors.addFirst(n/i);
+                if (i != 1 && i != n/i) {
+                    secondHalfOfDivisors.addFirst(n / i);
+                }
             }
         }
 
@@ -307,5 +332,117 @@ public class UtilLibrary {
         BigInteger bottom = factorial(b).multiply(factorial(a-b));
 
         return top.divide(bottom);
+    }
+
+    public static int[][] cloneDeep(int[][] arr) {
+        int[][] out = new int[arr.length][1];
+
+        for (int i = 0; i < arr.length; i++) {
+            out[i] = clone(arr[i]);
+        }
+
+        return out;
+    }
+
+    // 1600, 564, 23, 1000
+    public static boolean isLeapYear(int year) {
+        if (year%4 == 0) {
+            if (year%100 == 0) {
+                if (year%400 == 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static int sumDigits(BigInteger n) {
+        int sum = 0;
+        String number = n.toString();
+        for (int i = 0; i < number.length(); i++) {
+            sum += number.charAt(i) - '0';
+        }
+        return sum;
+    }
+
+    public static<T> boolean has(ArrayList<T> list, T value) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // is sum of divisors bigger than number
+    public static boolean isAbundant(int n) {
+        int[] divisors = getDivisors(n);
+        int sum = 0;
+        for (int i = 0; i < divisors.length; i++) {
+            sum += divisors[i];
+        }
+        return sum > n;
+    }
+
+    public static int getSumOfDivisors(int n) {
+        int[] divisors = getDivisors(n);
+        int sum = 0;
+        for (int i = 0; i < divisors.length; i++) {
+            sum += divisors[i];
+        }
+        return sum;
+    }
+
+    // returns false if there is no next permutation in the lexicographical order, true otherwise. advances the array values to the next
+    // permutation
+    // should work by going backwards in the array, checking if there is any bigger value in a bigger index in the array. if so swap
+    // them. if we went through the whole array and there is none, then there is no next permutation
+
+    /*
+    13245
+    13254
+    13425
+    13452
+    13524
+    13542
+     */
+    //13254 -> 13452
+    public static boolean nextPermutation(int[] arr) {
+        if (arr.length <= 1) {
+            return false;
+        }
+        for (int i = arr.length-2; i >= 0; i--) {
+            int j = arr.length-1;
+            for (; j > i; j--) {
+                if (arr[i] < arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+
+                    int[] reversed = new int[arr.length - i - 1];
+                    int reverseIndex = 0;
+                    int forwardIndex = arr.length-1;
+                    for (; forwardIndex > i; forwardIndex--, reverseIndex++) {
+                        reversed[reverseIndex] = arr[forwardIndex];
+                    }
+
+                    int index = 0;
+                    for (int k = i+1; k < arr.length; k++, index++) {
+                        arr[k] = reversed[index];
+                    }
+
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -18,7 +18,16 @@ public class Tests {
             {new P012().run(), "76576500"},
             {new P013().run(), "5537376230"},
             {new P014().run(), "837799"},
-            {new P015().run(), "137846528820"}
+            {new P015().run(), "137846528820"},
+            {new P016().run(), "1366"},
+            {new P017().run(), "21124"},
+            {new P018().run(), "1074"},
+            {new P019().run(), "171"},
+            {new P020().run(), "648"},
+            {new P021().run(), "31626"},
+            {new P022().run(), "871198282"},
+            {new P023().run(), "4179871"},
+            {new P024().run(), "2783915460"}
     };
 
     public static String getNameOfProblemFromIndex(int index) {

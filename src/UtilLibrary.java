@@ -1,7 +1,6 @@
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.function.IntUnaryOperator;
 
 public class UtilLibrary {
 
@@ -317,7 +316,7 @@ public class UtilLibrary {
         return amount;
     }
 
-    public static BigInteger factorial(int n) {
+    public static BigInteger factorialBigInteger(int n) {
         BigInteger result = new BigInteger("1");
 
         for (int i = 1; i <= n; i++) {
@@ -327,9 +326,17 @@ public class UtilLibrary {
         return result;
     }
 
+    public static int factorial(int n) {
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
     public static BigInteger choose(int a, int b) {
-        BigInteger top = factorial(a);
-        BigInteger bottom = factorial(b).multiply(factorial(a-b));
+        BigInteger top = factorialBigInteger(a);
+        BigInteger bottom = factorialBigInteger(b).multiply(factorialBigInteger(a-b));
 
         return top.divide(bottom);
     }
@@ -373,9 +380,18 @@ public class UtilLibrary {
         return sum;
     }
 
-    public static<T> boolean has(ArrayList<T> list, T value) {
+    public static<T> boolean has(List<T> list, T value) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static<T> boolean has(T[] arr, T value) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(value)) {
                 return true;
             }
         }
@@ -414,7 +430,7 @@ public class UtilLibrary {
     13524
     13542
      */
-    //13254 -> 13452
+    //13254 -> 13425
     public static boolean nextPermutation(int[] arr) {
         if (arr.length <= 1) {
             return false;
@@ -444,5 +460,192 @@ public class UtilLibrary {
             }
         }
         return false;
+    }
+
+    public static int[] getPrimesUpTo(int n) {
+        boolean[] isPrime = new boolean[n+1];
+        for (int i = 2; i < isPrime.length; i++) {
+            isPrime[i] = true;
+        }
+
+        // we have n numbers, 0 and 1 are immediately removed thus n-2, and +1 because we include n itself
+        int amountOfTrue = n-2+1;
+
+        for (int startingNumber = 2; startingNumber < isPrime.length/2; startingNumber++) {
+            for (int currentNumber = 2*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
+                if (isPrime[currentNumber]) {
+                    amountOfTrue--;
+                isPrime[currentNumber] = false;
+                }
+            }
+        }
+
+        int[] primes = new int[amountOfTrue];
+        int primesIndex = 0;
+        for (int i = 0; i < isPrime.length; i++) {
+            if (isPrime[i]) {
+                primes[primesIndex] = i;
+                primesIndex++;
+            }
+        }
+
+        return primes;
+    }
+
+    public static<T> int count(T[] arr, T value) {
+        int amount = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(value)) {
+                amount++;
+            }
+        }
+        return amount;
+    }
+
+    public static<T> T[] filter(T[] arr, T value) {
+        T[] filtered = Arrays.copyOf(arr, arr.length-count(arr, value));
+
+        int filteredIndex = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (!arr[i].equals(value)) {
+                filtered[filteredIndex] = arr[i];
+                filteredIndex++;
+            }
+        }
+
+        return filtered;
+    }
+
+    public static<T> T[] removeFirstAppearance(T[] arr, T value) {
+        if (has(arr, value)) {
+            T[] removed = Arrays.copyOf(arr, arr.length-1);
+            int removedIndex = 0;
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].equals(value)) {
+                    for (int j = i+1; j < arr.length; j++) {
+                        removed[removedIndex] = arr[j];
+                        removedIndex++;
+                    }
+                    return removed;
+                }
+                else {
+                    removed[removedIndex] = arr[i];
+                    removedIndex++;
+                }
+            }
+        }
+        return Arrays.copyOf(arr, arr.length);
+    }
+
+    public static<T> T[] intersection(T[] arr1In, T[] arr2In) {
+        T[] out;
+        int outIndex = 0;
+        if (arr1In.length >= arr2In.length) {
+            T[] arr2InTemp = Arrays.copyOf(arr2In, arr2In.length);
+            out = Arrays.copyOf(arr2In, arr2In.length);
+            Arrays.fill(out, null);
+
+            for (int i = 0; i < arr1In.length; i++) {
+                if (has(arr2InTemp, arr1In[i])) {
+                    arr2InTemp = removeFirstAppearance(arr2InTemp, arr1In[i]);
+                    out[outIndex] = arr1In[i];
+                    outIndex++;
+                }
+            }
+        }
+        else {
+            T[] arr1InTemp = Arrays.copyOf(arr1In, arr1In.length);
+            out = Arrays.copyOf(arr1In, arr1In.length);
+            Arrays.fill(out, null);
+
+            for (int i = 0; i < arr2In.length; i++) {
+                if (has(arr1InTemp, arr2In[i])) {
+                    arr1InTemp = removeFirstAppearance(arr1InTemp, arr2In[i]);
+                    out[outIndex] = arr2In[i];
+                    outIndex++;
+                }
+            }
+        }
+
+        out = Arrays.copyOf(out, outIndex);
+        return out;
+    }
+
+    public static int[] intersection(int[] arr1In, int[] arr2In) {
+        Integer[] arr1 = new Integer[arr1In.length];
+        Integer[] arr2 = new Integer[arr2In.length];
+
+        for (int i = 0; i < arr1In.length; i++) {
+            arr1[i] = arr1In[i];
+        }
+
+        for (int i = 0; i < arr2In.length; i++) {
+            arr2[i] = arr2In[i];
+        }
+
+        Integer[] result = intersection(arr1, arr2);
+
+        int[] out = new int[result.length];
+        for (int i = 0; i < result.length; i++) {
+            out[i] = result[i];
+        }
+        return out;
+    }
+
+    public static int[] breakIntoDigits(int num) {
+        int[] digits = new int[(int)(Math.floor(Math.log10(num)+1))];
+        for (int i = 0; i < digits.length; i++) {
+            digits[digits.length - i - 1] = num%10;
+            num = num/10;
+        }
+        return digits;
+    }
+
+    public static int sum(int[] arr) {
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    public static int[] applyToAll(int[] arr, IntUnaryOperator operator) {
+        int[] out = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            out[i] = operator.applyAsInt(arr[i]);
+        }
+        return out;
+    }
+
+    public static int[] circulateArray(int[] arr, int steps) {
+        int[] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            int newIndex = (((i+steps)%arr.length)+arr.length)%arr.length;
+            result[newIndex] = arr[i];
+        }
+        return result;
+    }
+
+
+    public static int circulateNumber(int num, int steps) {
+        return circulateNumber(num, steps, (int)Math.floor(Math.log10(num) + 1));
+    }
+
+    private static int circulateNumber(int num, int steps, int digitsInNumber) {
+        if (steps == 0) {
+            return num;
+        }
+        if (steps < 0) {
+            return circulateNumber( ((num%(int)(Math.pow(10, digitsInNumber-1)))*10) + (num/(int)(Math.pow(10, digitsInNumber-1))), ++steps, digitsInNumber);
+        }
+        return circulateNumber((num/10) + ((num%10)*(int)(Math.pow(10, digitsInNumber-1))), --steps, digitsInNumber);
+    }
+
+    public static HashSet<Integer> arrToHashSet(int[] arr) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < arr.length; i++) {
+            set.add(arr[i]);
+        }
+        return set;
     }
 }

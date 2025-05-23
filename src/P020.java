@@ -4,6 +4,6 @@ public final class P020 implements Solution {
     }
 
     public String run() {
-        return Integer.toString(UtilLibrary.sumDigits(UtilLibrary.factorial(100)));
+        return Integer.toString(UtilLibrary.sumDigits(UtilLibrary.factorialBigInteger(100)));
     }
 }

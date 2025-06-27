@@ -4,6 +4,21 @@ import java.util.function.IntUnaryOperator;
 
 public class UtilLibrary {
 
+    public static int maxIndex(int[] arr) {
+        if (arr.length == 0) {
+            return -1;
+        }
+
+        int maxIndex = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > arr[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        return maxIndex;
+    }
+
     public static int charToInt(char c) {
         return c-48;
     }
@@ -471,11 +486,13 @@ public class UtilLibrary {
         // we have n numbers, 0 and 1 are immediately removed thus n-2, and +1 because we include n itself
         int amountOfTrue = n-2+1;
 
-        for (int startingNumber = 2; startingNumber < isPrime.length/2; startingNumber++) {
-            for (int currentNumber = 2*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
-                if (isPrime[currentNumber]) {
-                    amountOfTrue--;
-                isPrime[currentNumber] = false;
+        for (int startingNumber = 2; startingNumber*startingNumber < n; startingNumber++) {
+            if (isPrime[startingNumber]) {
+                for (int currentNumber = startingNumber*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
+                    if (isPrime[currentNumber]) {
+                        amountOfTrue--;
+                    isPrime[currentNumber] = false;
+                    }
                 }
             }
         }
@@ -647,5 +664,28 @@ public class UtilLibrary {
             set.add(arr[i]);
         }
         return set;
+    }
+
+    public static boolean isPanDigital(int num) {
+        int[] digits = UtilLibrary.breakIntoDigits(num);
+        boolean[] appears = new boolean[digits.length];
+
+        if (digits[UtilLibrary.maxIndex(digits)] - 1 >= appears.length) {
+            return false;
+        }
+
+        for (int i = 0; i < digits.length; i++) {
+            if (digits[i] == 0) {
+                return false;
+            }
+            appears[digits[i]-1] = true;
+        }
+
+        for (int i = 0; i < appears.length; i++) {
+            if (!appears[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }

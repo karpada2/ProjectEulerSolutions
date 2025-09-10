@@ -167,7 +167,7 @@ public class UtilLibrary {
         }
         LinkedList<Long> factorsSmallerThanSqrt = new LinkedList<Long>();
 
-        for (int i = 1; i < (int)(Math.sqrt(n))+1; i++) {
+        for (int i = 2; i < (int)(Math.sqrt(n)) + 1; i++) {
             if (n%i == 0 && isPrime(i)) {
                 long num = n;
                 while (num%i == 0) {
@@ -175,6 +175,16 @@ public class UtilLibrary {
                     factorsSmallerThanSqrt.add((long)(i));
                 }
             }
+        }
+
+        long mult = 1;
+
+        for (int i = 0; i < factorsSmallerThanSqrt.size(); i++) {
+            mult *= factorsSmallerThanSqrt.get(i);
+        }
+
+        if (mult != n) {
+            factorsSmallerThanSqrt.add(n/mult);
         }
 
         return toArrayLong(factorsSmallerThanSqrt);
@@ -186,7 +196,7 @@ public class UtilLibrary {
         }
         LinkedList<Integer> factorsSmallerThanSqrt = new LinkedList<Integer>();
 
-        for (int i = 1; i < (int)(Math.sqrt(n))+1; i++) {
+        for (int i = 2; i < (int)(Math.sqrt(n)) + 1; i++) {
             if (n%i == 0 && isPrime(i)) {
                 int num = n;
                 while (num%i == 0) {
@@ -194,6 +204,16 @@ public class UtilLibrary {
                     factorsSmallerThanSqrt.add(i);
                 }
             }
+        }
+
+        int mult = 1;
+
+        for (int i = 0; i < factorsSmallerThanSqrt.size(); i++) {
+            mult *= factorsSmallerThanSqrt.get(i);
+        }
+
+        if (mult != n) {
+            factorsSmallerThanSqrt.add(n/mult);
         }
 
         return toArrayInt(factorsSmallerThanSqrt);
@@ -686,6 +706,29 @@ public class UtilLibrary {
                 return false;
             }
         }
+        return true;
+    }
+
+    public static boolean isPermutationOf(int[] arr1, int[] arr2) {
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        boolean[] arr2TouchedPlaces = new boolean[arr2.length];
+
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr2.length; j++) {
+                if (arr1[i] == arr2[j] && !arr2TouchedPlaces[j]) {
+                    arr2TouchedPlaces[j] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < arr2TouchedPlaces.length; i++) {
+            if (!arr2TouchedPlaces[i]) {
+                return false;
+            }
+        }
+
         return true;
     }
 }

@@ -713,22 +713,25 @@ public class UtilLibrary {
         if (arr1.length != arr2.length) {
             return false;
         }
-        boolean[] arr2TouchedPlaces = new boolean[arr2.length];
+
+        Map<Integer, Integer> arr1Counts = new HashMap<>();
 
         for (int i = 0; i < arr1.length; i++) {
-            for (int j = 0; j < arr2.length; j++) {
-                if (arr1[i] == arr2[j] && !arr2TouchedPlaces[j]) {
-                    arr2TouchedPlaces[j] = true;
-                }
-            }
+            arr1Counts.put(arr1[i], arr1Counts.getOrDefault(arr1[i], 0)+1);
         }
 
-        for (int i = 0; i < arr2TouchedPlaces.length; i++) {
-            if (!arr2TouchedPlaces[i]) {
+        for (int i = 0; i < arr2.length; i++) {
+            if (!arr1Counts.containsKey(arr2[i])) {
                 return false;
             }
+
+            arr1Counts.put(arr2[i], arr1Counts.get(arr2[i])-1);
+
+            if (arr1Counts.get(arr2[i]) == 0) {
+                arr1Counts.remove(arr2[i]);
+            }
         }
 
-        return true;
+        return arr1Counts.isEmpty();
     }
 }

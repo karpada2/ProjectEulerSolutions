@@ -54,7 +54,9 @@ public class Tests {
             new SolutionComparer(new P044(), "5482660"),
             new SolutionComparer(new P045(), "1533776805"),
             new SolutionComparer(new P046(), "5777"),
-            new SolutionComparer(new P047(), "134043")
+            new SolutionComparer(new P047(), "134043"),
+            new SolutionComparer(new P048(), "9110846700"),
+            new SolutionComparer(new P049(), "296962999629"),
     };
 
     public static String getNameOfProblemFromIndex(int index) {
@@ -74,6 +76,7 @@ public class Tests {
         System.out.println("enter index of answer to check (less than 1 will check all): ");
         int givenAnswer = sc.nextInt() - 1;
 
+        double startTime = System.currentTimeMillis();
         if (givenAnswer >= 0 && givenAnswer < solutions.length) {
             System.out.println(getNameOfProblemFromIndex(givenAnswer) + " " + (solutions[givenAnswer].isCorrect() ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
         }
@@ -82,5 +85,6 @@ public class Tests {
                 System.out.println(getNameOfProblemFromIndex(i) + " " + (solutions[i].isCorrect() ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
             }
         }
+        System.out.println("Time to calculate everything: " + (System.currentTimeMillis() - startTime)/1000.0 + "[s]");
     }
 }

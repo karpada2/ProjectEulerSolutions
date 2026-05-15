@@ -497,6 +497,38 @@ public class UtilLibrary {
         return false;
     }
 
+    public static long[] getPrimesUpTo(long n) {
+        boolean[] isPrime = new boolean[(int)n+1];
+        for (int i = 2; i < isPrime.length; i++) {
+            isPrime[i] = true;
+        }
+
+        // we have n numbers, 0 and 1 are immediately removed thus n-2, and +1 because we include n itself
+        long amountOfTrue = n-2+1;
+
+        for (int startingNumber = 2; startingNumber*startingNumber < n; startingNumber++) {
+            if (isPrime[startingNumber]) {
+                for (int currentNumber = startingNumber*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
+                    if (isPrime[currentNumber]) {
+                        amountOfTrue--;
+                    isPrime[currentNumber] = false;
+                    }
+                }
+            }
+        }
+
+        long[] primes = new long[(int)amountOfTrue];
+        int primesIndex = 0;
+        for (int i = 0; i < isPrime.length; i++) {
+            if (isPrime[i]) {
+                primes[primesIndex] = i;
+                primesIndex++;
+            }
+        }
+
+        return primes;
+    }
+
     public static int[] getPrimesUpTo(int n) {
         boolean[] isPrime = new boolean[n+1];
         for (int i = 2; i < isPrime.length; i++) {
@@ -511,7 +543,7 @@ public class UtilLibrary {
                 for (int currentNumber = startingNumber*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
                     if (isPrime[currentNumber]) {
                         amountOfTrue--;
-                    isPrime[currentNumber] = false;
+                        isPrime[currentNumber] = false;
                     }
                 }
             }
@@ -527,6 +559,25 @@ public class UtilLibrary {
         }
 
         return primes;
+    }
+
+    public static boolean[] listPrimality(int n) {
+        boolean[] isPrime = new boolean[n+1];
+        for (int i = 2; i < isPrime.length; i++) {
+            isPrime[i] = true;
+        }
+
+        for (int startingNumber = 2; startingNumber*startingNumber < n; startingNumber++) {
+            if (isPrime[startingNumber]) {
+                for (int currentNumber = startingNumber*startingNumber; currentNumber < isPrime.length; currentNumber+=startingNumber) {
+                    if (isPrime[currentNumber]) {
+                        isPrime[currentNumber] = false;
+                    }
+                }
+            }
+        }
+
+        return isPrime;
     }
 
     public static<T> int count(T[] arr, T value) {
@@ -638,8 +689,16 @@ public class UtilLibrary {
         return digits;
     }
 
-    public static int sum(int[] arr) {
-        int sum = 0;
+    public static long sum(int[] arr) {
+        long sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    public static long sum(long[] arr) {
+        long sum = 0;
         for (int i = 0; i < arr.length; i++) {
             sum += arr[i];
         }

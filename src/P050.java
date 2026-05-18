@@ -10,12 +10,10 @@ public final class P050 implements Solution {
 
     @Override
     public String run() {
-        System.out.println(isPrimeLookup);
         int longestLength = 1;
         long primeWithLongest = 2;
         for (int i = 0; i < relevantPrimes.length; i++) {
             long currentSumPrime = relevantPrimes[i];
-            System.out.println(100*(i/1_000_000.0));
             for (int j = i+1; j < relevantPrimes.length; j++) {
                 currentSumPrime += relevantPrimes[j];
                 if (currentSumPrime <= 1_000_000 && (j - i) + 1 > longestLength && isPrimeLookup[(int)currentSumPrime]) {

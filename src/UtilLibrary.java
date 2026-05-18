@@ -376,6 +376,13 @@ public class UtilLibrary {
         return top.divide(bottom);
     }
 
+    public static int chooseInt(int a, int b) {
+        int top = factorial(a);
+        int bottom = factorial(b)*factorial(a-b);
+
+        return top/bottom;
+    }
+
     public static int[][] cloneDeep(int[][] arr) {
         int[][] out = new int[arr.length][1];
 
@@ -689,6 +696,24 @@ public class UtilLibrary {
         return digits;
     }
 
+    public static int digitsIntoNumber(int[] digits) {
+        int number = 0;
+        for (int i = 0; i < digits.length; i++) {
+            number *= 10;
+            number += digits[i];
+        }
+        return number;
+    }
+
+    public static long digitsIntoLongNumber(int[] digits) {
+        long number = 0;
+        for (int i = 0; i < digits.length; i++) {
+            number *= 10;
+            number += digits[i];
+        }
+        return number;
+    }
+
     public static long sum(int[] arr) {
         long sum = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -792,5 +817,75 @@ public class UtilLibrary {
         }
 
         return arr1Counts.isEmpty();
+    }
+
+    public static int gcd(int a, int b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        int d = 0;
+        while (a%2 == 0 && b%2 == 0) {
+            a = a>>2;
+            b = b>>2;
+
+            d++;
+        }
+
+        while (a%2 == 0) {
+            a = a>>2;
+        }
+        while (b%2 == 0) {
+            b = b>>2;
+        }
+
+        while (a != b) {
+            if (a > b) {
+                a = a - b;
+                while (a%2 == 0) {
+                    a = a>>2;
+                }
+            }
+            else {
+                b = b - a;
+                while (b%2 == 0) {
+                    b = b>>2;
+                }
+            }
+        }
+
+        return a*((int)(Math.pow(2, d)));
+    }
+
+    public static int countDigits(int n) {
+        if (n < 100_000) {
+            if (n < 100) {
+                if (n < 10) return 1;
+                else return 2;
+            } else {
+                if (n < 1_000) return 3;
+                else if (n < 10_000) return 4;
+                else return 5;
+            }
+        } else {
+            if (n < 10_000_000) {
+                if (n < 1_000_000) return 6;
+                else return 7;
+            } else {
+                if (n < 100_000_000) return 8;
+                else if (n < 1_000_000_000) return 9;
+                else return 10;
+            }
+        }
+    }
+
+    public static int getNthDigit(int number, int n) {
+        int result;
+        try {
+            result = ((number)/((int)(Math.pow(10, countDigits(number) - n - 1))))%10;
+        } catch (Exception e) {
+            System.out.println(number);
+            System.out.println(n);
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }

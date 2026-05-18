@@ -6,17 +6,17 @@ public final class P043 implements Solution {
     }
 
     public String run() {
-        BigInteger sum = BigInteger.valueOf(0);
+        long sum = 0;
         int[] number = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
         do {
             if (isDigitsWithUniqueProperty(number)) {
-                sum = sum.add(new BigInteger(UtilLibrary.digitsToIntegerString(number)));
+                sum += UtilLibrary.digitsIntoLongNumber(number);
             }
         }
         while (UtilLibrary.nextPermutation(number));
 
-        return sum.toString();
+        return Long.toString(sum);
     }
 
     static int[] relevantPrimes = UtilLibrary.getPrimesUpTo(18);

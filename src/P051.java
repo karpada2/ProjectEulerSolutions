@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class P051 implements Solution {
+public final class P051 implements Solution {
     public static void main(String[] args) {
         System.out.println(new P051().run());
     }

@@ -793,6 +793,32 @@ public class UtilLibrary {
         return true;
     }
 
+    public static boolean isPermutationOf(long num1, long num2) {
+        if (countDigits(num1) != countDigits(num2)) {
+            return false;
+        }
+
+        int[] digitsCounter = new int[10];
+        int num1DigitCount = countDigits(num1);
+        for (int i = 0; i < num1DigitCount; i++) {
+            digitsCounter[(int)num1%10]++;
+            num1 /= 10;
+        }
+
+        int num2DigitCount = countDigits(num2);
+        for (int i = 0; i < num2DigitCount; i++) {
+            digitsCounter[(int)num2%10]--;
+            num2 /= 10;
+        }
+
+        for (int i = 0; i < digitsCounter.length; i++) {
+            if (digitsCounter[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isPermutationOf(int[] arr1, int[] arr2) {
         if (arr1.length != arr2.length) {
             return false;
@@ -873,6 +899,42 @@ public class UtilLibrary {
                 if (n < 100_000_000) return 8;
                 else if (n < 1_000_000_000) return 9;
                 else return 10;
+            }
+        }
+    }
+
+    public static int countDigits(long n) {
+        if (n < 0) {
+            n = -n; // Handle negative numbers
+        }
+
+        // Divide and conquer boundaries for long (max 19 digits)
+        if (n < 100_000L) {
+            if (n < 100L) {
+                return (n < 10L) ? 1 : 2;
+            } else {
+                if (n < 1_000L) return 3;
+                return (n < 10_000L) ? 4 : 5;
+            }
+        } else {
+            if (n < 10_000_000_000L) {
+                if (n < 1_000_000L) return 6;
+                if (n < 10_000_000L) return 7;
+                return (n < 100_000_000L) ? 8 : 9;
+            } else {
+                if (n < 1_000_000_000_000L) {
+                    return (n < 100_000_000_000L) ? 10 : 11;
+                } else {
+                    if (n < 100_000_000_000_000L) {
+                        return (n < 10_000_000_000_000L) ? 12 : 13;
+                    } else {
+                        if (n < 1_000_000_000_000_000L) return 14;
+                        if (n < 10_000_000_000_000_000L) return 15;
+                        if (n < 100_000_000_000_000_000L) return 16;
+                        if (n < 1_000_000_000_000_000_000L) return 17;
+                        return 18;
+                    }
+                }
             }
         }
     }

@@ -688,7 +688,7 @@ public class UtilLibrary {
     }
 
     public static int[] breakIntoDigits(long num) {
-        int[] digits = new int[countDigits(num)+1];
+        int[] digits = new int[countDigits(num)];
         for (int i = 0; i < digits.length; i++) {
             digits[digits.length - i - 1] = (int)(num%10);
             num = num/10;
@@ -801,13 +801,13 @@ public class UtilLibrary {
         int[] digitsCounter = new int[10];
         int num1DigitCount = countDigits(num1);
         for (int i = 0; i < num1DigitCount; i++) {
-            digitsCounter[(int)num1%10]++;
+            digitsCounter[(int)(num1%10)]++;
             num1 /= 10;
         }
 
         int num2DigitCount = countDigits(num2);
         for (int i = 0; i < num2DigitCount; i++) {
-            digitsCounter[(int)num2%10]--;
+            digitsCounter[(int)(num2%10)]--;
             num2 /= 10;
         }
 

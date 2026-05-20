@@ -687,10 +687,10 @@ public class UtilLibrary {
         return out;
     }
 
-    public static int[] breakIntoDigits(int num) {
-        int[] digits = new int[(int)(Math.floor(Math.log10(num)+1))];
+    public static int[] breakIntoDigits(long num) {
+        int[] digits = new int[countDigits(num)+1];
         for (int i = 0; i < digits.length; i++) {
-            digits[digits.length - i - 1] = num%10;
+            digits[digits.length - i - 1] = (int)(num%10);
             num = num/10;
         }
         return digits;
@@ -949,5 +949,41 @@ public class UtilLibrary {
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    public static boolean isPerfectSquare(long n) {
+        long jump = (n/4);
+        long guess = (n/2)+1;
+        for (long i = 0; i < (long)(Math.log(n)/Math.log(2))+5; i++) {
+            if (guess*guess == n) {
+                return true;
+            }
+            else if (guess*guess < n) {
+                guess += jump;
+            }
+            else {
+                guess -= jump;
+            }
+            jump = (jump/2);
+        }
+        return false;
+    }
+
+    public static boolean isPerfectSquare(double n) {
+        double jump = (n/4);
+        double guess = (n/2)+1;
+        for (long i = 0; i < (long)(Math.log(n)/Math.log(2))+5; i++) {
+            if (Math.abs((guess*guess) - n) <= 0.001) {
+                return true;
+            }
+            else if (guess*guess < n) {
+                guess += jump;
+            }
+            else {
+                guess -= jump;
+            }
+            jump = (jump/2);
+        }
+        return false;
     }
 }

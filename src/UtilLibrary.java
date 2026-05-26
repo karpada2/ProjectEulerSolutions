@@ -845,40 +845,43 @@ public class UtilLibrary {
         return arr1Counts.isEmpty();
     }
 
-    public static int gcd(int a, int b) {
+    public static long gcd(long a, long b) {
         a = Math.abs(a);
         b = Math.abs(b);
+        if (b > a) {
+            return gcd(b, a);
+        }
         int d = 0;
         while (a%2 == 0 && b%2 == 0) {
-            a = a>>2;
-            b = b>>2;
+            a = a/2;
+            b = b/2;
 
             d++;
         }
 
         while (a%2 == 0) {
-            a = a>>2;
+            a = a/2;
         }
         while (b%2 == 0) {
-            b = b>>2;
+            b = b/2;
         }
 
         while (a != b) {
             if (a > b) {
                 a = a - b;
                 while (a%2 == 0) {
-                    a = a>>2;
+                    a = a/2;
                 }
             }
             else {
                 b = b - a;
                 while (b%2 == 0) {
-                    b = b>>2;
+                    b = b/2;
                 }
             }
         }
 
-        return a*((int)(Math.pow(2, d)));
+        return a*((long)(Math.pow(2, d)));
     }
 
     public static int countDigits(int n) {

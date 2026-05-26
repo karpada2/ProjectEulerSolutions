@@ -71,7 +71,8 @@ public class Tests {
             new SolutionComparer(new P061(), "28684"),
             new SolutionComparer(new P062(), "127035954683"),
             new SolutionComparer(new P063(), "49"),
-            new SolutionComparer(new P064(), "1322")
+            new SolutionComparer(new P064(), "1322"),
+            new SolutionComparer(new P065(), "272")
     };
 
     public static String getNameOfProblemFromIndex(int index) {

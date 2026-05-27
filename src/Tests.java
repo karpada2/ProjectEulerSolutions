@@ -75,6 +75,7 @@ public class Tests {
             new SolutionComparer(new P065(), "272"), // has Fraction class, may be useful in some problems
             new SolutionComparer(new P066(), "661"),
             new SolutionComparer(new P067(), "7273"),
+            new SolutionComparer(new P068(), "6531031914842725"),
     };
 
     public static String getNameOfProblemFromIndex(int index) {

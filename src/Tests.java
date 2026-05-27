@@ -74,6 +74,7 @@ public class Tests {
             new SolutionComparer(new P064(), "1322"),
             new SolutionComparer(new P065(), "272"), // has Fraction class, may be useful in some problems
             new SolutionComparer(new P066(), "661"),
+            new SolutionComparer(new P067(), "7273"),
     };
 
     public static String getNameOfProblemFromIndex(int index) {
@@ -98,9 +99,16 @@ public class Tests {
             System.out.println(getNameOfProblemFromIndex(givenAnswer) + " " + (solutions[givenAnswer].isCorrect() ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
         }
         else {
+            boolean allSuccess = true;
+            boolean currSuccess;
             for (int i = 0; i < solutions.length; i++) {
-                System.out.println(getNameOfProblemFromIndex(i) + " " + (solutions[i].isCorrect() ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
+                currSuccess = solutions[i].isCorrect();
+                if (!currSuccess) {
+                    allSuccess = false;
+                }
+                System.out.println(getNameOfProblemFromIndex(i) + " " + (currSuccess ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
             }
+            System.out.println((allSuccess ? ANSI_GREEN + "Everything success!" : ANSI_RED + "Something failed!") + ANSI_RESET);
         }
         System.out.println("Time to calculate everything: " + (System.currentTimeMillis() - startTime)/1000.0 + "[s]");
     }

@@ -37,7 +37,10 @@ public final class P065 implements Solution {
         }
 
         public Fraction add(long number) {
-            return add(BigInteger.valueOf(number).multiply(this.denominator), this.denominator);
+            return add(BigInteger.valueOf(number));
+        }
+        public Fraction add(BigInteger number) {
+            return add(number.multiply(this.denominator), this.denominator);
         }
         public Fraction add(BigInteger numerator, BigInteger denominator) {
             if (this.denominator.equals(denominator)) {
@@ -63,7 +66,7 @@ public final class P065 implements Solution {
         public boolean equals(Fraction other) {
             Fraction thisSimplified = this.simplified();
             Fraction otherSimplified = other.simplified();
-            return thisSimplified.numerator == otherSimplified.numerator && thisSimplified.denominator == otherSimplified.denominator;
+            return thisSimplified.numerator.equals(otherSimplified.numerator) && thisSimplified.denominator.equals(otherSimplified.denominator);
         }
     }
 
@@ -92,8 +95,6 @@ public final class P065 implements Solution {
             fraction = fraction.add(terms[i]).inverse();
         }
         fraction = fraction.inverse();
-
-        System.out.println(fraction);
 
         return Long.toString(UtilLibrary.sumDigits(fraction.numerator));
     }

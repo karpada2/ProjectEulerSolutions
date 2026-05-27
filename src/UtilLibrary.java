@@ -3,7 +3,6 @@ import java.util.*;
 import java.util.function.IntUnaryOperator;
 
 public class UtilLibrary {
-
     public static int maxIndex(int[] arr) {
         if (arr.length == 0) {
             return -1;
@@ -967,16 +966,16 @@ public class UtilLibrary {
             else {
                 guess -= jump;
             }
-            jump = (jump/2);
+            jump = (jump/2) == 0 ? 1 : (jump/2);
         }
         return false;
     }
 
     public static boolean isPerfectSquare(double n) {
-        double jump = (n/4);
-        double guess = (n/2)+1;
+        long jump = (long)Math.ceil(n/4);
+        long guess = (long)Math.ceil(n/2);
         for (long i = 0; i < (long)(Math.log(n)/Math.log(2))+5; i++) {
-            if (Math.abs((guess*guess) - n) <= 0.001) {
+            if (Math.abs((guess*guess) - n) <= 0.01) {
                 return true;
             }
             else if (guess*guess < n) {
@@ -985,7 +984,7 @@ public class UtilLibrary {
             else {
                 guess -= jump;
             }
-            jump = (jump/2);
+            jump = (jump/2) == 0 ? 1 : (jump/2);
         }
         return false;
     }

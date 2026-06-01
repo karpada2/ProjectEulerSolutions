@@ -2,28 +2,7 @@ import java.util.Arrays;
 
 public final class P069 implements Solution {
     public static void main(String[] args) {
-        int[] primes = UtilLibrary.getPrimesUpTo(UPPER_BOUND);
-        System.out.println(Arrays.toString(UtilLibrary.getPrimeFactors(721)));
-        long result = 1;
-        boolean flag = true;
-        for (int i = 0; i < primes.length; i++) {
-            result *= primes[i];
-            if (result + 1 >= primality.length) {
-                if (!UtilLibrary.isPrime(result + 1)) {
-                    flag = false;
-                    System.out.println(i+1);
-                    System.out.println(result + 1);
-                    System.out.println(Arrays.toString(UtilLibrary.getPrimeFactors(result + 1)));
-                }
-            }
-            else if (!primality[(int)result + 1]) {
-                flag = false;
-                System.out.println(i+1);
-                System.out.println(result + 1);
-                System.out.println(Arrays.toString(UtilLibrary.getPrimeFactors(result + 1)));
-            }
-        }
-//        System.out.println(new P069().run());
+        System.out.println(new P069().run());
     }
 
     public static int UPPER_BOUND = 1_000_001;

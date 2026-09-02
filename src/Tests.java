@@ -79,6 +79,7 @@ public class Tests {
             new SolutionComparer(new P069(), "510510"),
             new SolutionComparer(new P070(), "8319823"),
             new SolutionComparer(new P071(), "428570"),
+            new SolutionComparer(new P072(), "0")
     };
 
     public static String getNameOfProblemFromIndex(int index) {
@@ -100,7 +101,9 @@ public class Tests {
 
         double startTime = System.currentTimeMillis();
         if (givenAnswer >= 0 && givenAnswer < solutions.length) {
-            System.out.println(getNameOfProblemFromIndex(givenAnswer) + " " + (solutions[givenAnswer].isCorrect() ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
+            String result = solutions[givenAnswer].solution.run();
+            System.out.println(getNameOfProblemFromIndex(givenAnswer) + " " + (result.equals(solutions[givenAnswer].actualSolution) ? ANSI_GREEN + "success" : ANSI_RED + "failed") + ANSI_RESET);
+            System.out.println(result);
         }
         else {
             boolean allSuccess = true;

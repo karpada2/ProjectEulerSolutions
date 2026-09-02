@@ -3,69 +3,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public final class P066 implements Solution {
-    public static class Fraction {
-        BigInteger numerator;
-        BigInteger denominator;
-
-        public Fraction(long numerator, long denominator) {
-            this(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
-        }
-        public Fraction(BigInteger numerator, BigInteger denominator) {
-            this.numerator = numerator;
-            this.denominator = denominator;
-        }
-
-        public Fraction times(Fraction other) {
-            return this.times(other.numerator, other.denominator);
-        }
-        public Fraction times(BigInteger numerator, BigInteger denominator) {
-            return new Fraction(this.numerator.multiply(numerator), this.denominator.multiply(denominator));
-        }
-
-        public Fraction inverse() {
-            return new Fraction(denominator, numerator);
-        }
-
-        public Fraction divide(long numerator, long denominator) {
-            return divide(new Fraction(numerator, denominator));
-        }
-        public Fraction divide(Fraction other) {
-            return this.times(other.inverse());
-        }
-
-        public Fraction add(long number) {
-            return add(BigInteger.valueOf(number));
-        }
-        public Fraction add(BigInteger number) {
-            return add(number.multiply(this.denominator), this.denominator);
-        }
-        public Fraction add(BigInteger numerator, BigInteger denominator) {
-            if (this.denominator.equals(denominator)) {
-                return new Fraction(this.numerator.add(numerator), denominator);
-            }
-            return new Fraction(this.numerator.multiply(denominator).add(numerator.multiply(this.denominator)), this.denominator.multiply(denominator));
-        }
-        public Fraction add(Fraction other) {
-            return add(other.numerator, other.denominator);
-        }
-
-        public Fraction simplified() {
-            boolean shouldBeNegative = (this.numerator.compareTo(BigInteger.ZERO) < 0) ^ (this.denominator.compareTo(BigInteger.ZERO) < 0);
-            BigInteger gcd = numerator.gcd(denominator);
-            return new Fraction(BigInteger.valueOf(shouldBeNegative ? -1 : 1).multiply(this.numerator.divide(gcd)), (this.denominator.divide(gcd)));
-        }
-
-        @Override
-        public String toString() {
-            return "(" + this.numerator + " / " + this.denominator + ")";
-        }
-
-        public boolean equals(Fraction other) {
-            Fraction thisSimplified = this.simplified();
-            Fraction otherSimplified = other.simplified();
-            return thisSimplified.numerator.equals(otherSimplified.numerator) && thisSimplified.denominator.equals(otherSimplified.denominator);
-        }
-    }
 
     public static void main(String[] args) {
         System.out.println(new P066().run());
@@ -89,14 +26,14 @@ public final class P066 implements Solution {
         return added.subtract(divisor.multiply(nextTerm)).abs();
     }
 
-    public static Fraction getNeededConvergent(int D) {
-        Fraction baseFraction = new Fraction(1, 1);
+    public static UtilLibrary.Fraction getNeededConvergent(int D) {
+        UtilLibrary.Fraction baseFraction = new UtilLibrary.Fraction(1, 1);
         int length = 1;
         BigInteger added = BigInteger.valueOf(getFirstTerm(D));
-        Fraction currentFraction = new Fraction(1, D - (long) getFirstTerm(D)*getFirstTerm(D));
+        UtilLibrary.Fraction currentFraction = new UtilLibrary.Fraction(1, D - (long) getFirstTerm(D)*getFirstTerm(D));
         while (!currentFraction.equals(baseFraction)) {
             added = getNextAdded(added, currentFraction.denominator, D);
-            currentFraction = new Fraction(currentFraction.denominator, BigInteger.valueOf(D).subtract(added.multiply(added))).simplified();
+            currentFraction = new UtilLibrary.Fraction(currentFraction.denominator, BigInteger.valueOf(D).subtract(added.multiply(added))).simplified();
             length++;
         }
         int neededConvergentIndex = 0;
@@ -110,14 +47,14 @@ public final class P066 implements Solution {
         BigInteger[] terms = new BigInteger[neededConvergentIndex];
         terms[0] = BigInteger.valueOf(getFirstTerm(D));
         added = BigInteger.valueOf(getFirstTerm(D));
-        currentFraction = new Fraction(1, D - (long) getFirstTerm(D)*getFirstTerm(D));
+        currentFraction = new UtilLibrary.Fraction(1, D - (long) getFirstTerm(D)*getFirstTerm(D));
         for (int i = 1; i < terms.length; i++) {
             terms[i] = getNextTerm(added, currentFraction.denominator, D);
             added = getNextAdded(added, currentFraction.denominator, D);
-            currentFraction = new Fraction(currentFraction.denominator, BigInteger.valueOf(D).subtract(added.multiply(added))).simplified();
+            currentFraction = new UtilLibrary.Fraction(currentFraction.denominator, BigInteger.valueOf(D).subtract(added.multiply(added))).simplified();
         }
 
-        Fraction fraction = new Fraction(BigInteger.ONE, terms[terms.length-1]);
+        UtilLibrary.Fraction fraction = new UtilLibrary.Fraction(BigInteger.ONE, terms[terms.length-1]);
         for (int i = terms.length-2; i >= 0; i--) {
             fraction = fraction.add(terms[i]).inverse();
         }

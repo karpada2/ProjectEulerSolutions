@@ -3,6 +3,75 @@ import java.util.*;
 import java.util.function.IntUnaryOperator;
 
 public class UtilLibrary {
+    public static class Fraction {
+        BigInteger numerator;
+        BigInteger denominator;
+
+        public Fraction(long numerator, long denominator) {
+            this(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
+        }
+        public Fraction(BigInteger numerator, BigInteger denominator) {
+            this.numerator = numerator;
+            this.denominator = denominator;
+        }
+
+        public Fraction times(Fraction other) {
+            return this.times(other.numerator, other.denominator);
+        }
+        public Fraction times(BigInteger numerator, BigInteger denominator) {
+            return new Fraction(this.numerator.multiply(numerator), this.denominator.multiply(denominator));
+        }
+
+        public Fraction inverse() {
+            return new Fraction(denominator, numerator);
+        }
+
+        public Fraction divide(long numerator, long denominator) {
+            return divide(new Fraction(numerator, denominator));
+        }
+        public Fraction divide(Fraction other) {
+            return this.times(other.inverse());
+        }
+
+        public Fraction add(long number) {
+            return add(BigInteger.valueOf(number));
+        }
+        public Fraction add(BigInteger number) {
+            return add(number.multiply(this.denominator), this.denominator);
+        }
+        public Fraction add(BigInteger numerator, BigInteger denominator) {
+            if (this.denominator.equals(denominator)) {
+                return new Fraction(this.numerator.add(numerator), denominator);
+            }
+            return new Fraction(this.numerator.multiply(denominator).add(numerator.multiply(this.denominator)), this.denominator.multiply(denominator));
+        }
+        public Fraction add(Fraction other) {
+            return add(other.numerator, other.denominator);
+        }
+
+        public Fraction simplified() {
+            boolean shouldBeNegative = (this.numerator.compareTo(BigInteger.ZERO) < 0) ^ (this.denominator.compareTo(BigInteger.ZERO) < 0);
+            BigInteger gcd = numerator.gcd(denominator);
+            return new Fraction(BigInteger.valueOf(shouldBeNegative ? -1 : 1).multiply(this.numerator.divide(gcd)), (this.denominator.divide(gcd)));
+        }
+
+        @Override
+        public String toString() {
+            return "(" + this.numerator + " / " + this.denominator + ")";
+        }
+
+        public boolean equals(Fraction other) {
+            Fraction thisMultiplied = this.times(other.denominator, other.denominator);
+            Fraction otherMultiplied = other.times(this.denominator, this.denominator);
+            return thisMultiplied.numerator.equals(otherMultiplied.numerator);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(numerator, denominator);
+        }
+    }
+
     public static int maxIndex(int[] arr) {
         if (arr.length == 0) {
             return -1;

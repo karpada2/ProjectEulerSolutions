@@ -15,9 +15,6 @@ public final class P072 implements Solution {
     public String run() {
         long count = 0;
         for (int denominator = 2; denominator <= UPPER_LIMIT; denominator++) {
-            if (denominator % 1000 == 0) {
-                System.out.println((double)denominator/UPPER_LIMIT);
-            }
             count += totients[denominator];
         }
 

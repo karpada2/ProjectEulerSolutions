@@ -80,6 +80,7 @@ public class Tests {
             new SolutionComparer(new P070(), "8319823"),
             new SolutionComparer(new P071(), "428570"),
             new SolutionComparer(new P072(), "303963552391"),
+            new SolutionComparer(new P073(), "7295372"),
     };
 
     public static String getNameOfProblemFromIndex(int index) {

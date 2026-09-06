@@ -55,6 +55,13 @@ public class UtilLibrary {
             return new Fraction(BigInteger.valueOf(shouldBeNegative ? -1 : 1).multiply(this.numerator.divide(gcd)), (this.denominator.divide(gcd)));
         }
 
+        public int compareTo(Fraction other) {
+            Fraction thisMultiplied = this.times(other.denominator, other.denominator);
+            Fraction otherMultiplied = other.times(this.denominator, this.denominator);
+
+            return thisMultiplied.numerator.subtract(otherMultiplied.numerator).signum();
+        }
+
         @Override
         public String toString() {
             return "(" + this.numerator + " / " + this.denominator + ")";

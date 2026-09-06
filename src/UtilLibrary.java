@@ -443,6 +443,13 @@ public class UtilLibrary {
         }
         return result;
     }
+    public static long factorial(long n) {
+        long result = 1;
+        for (long i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
 
     public static BigInteger choose(int a, int b) {
         BigInteger top = factorialBigInteger(a);

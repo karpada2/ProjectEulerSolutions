@@ -119,7 +119,7 @@ public class UtilLibrary {
     }
 
 
-    public static int[] toArrayInt(LinkedList<Integer> list) {
+    public static int[] toArrayInt(List<Integer> list) {
         int[] arr = new int[list.size()];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = list.get(i);
@@ -127,7 +127,7 @@ public class UtilLibrary {
         return arr;
     }
 
-    public static long[] toArrayLong(LinkedList<Long> list) {
+    public static long[] toArrayLong(List<Long> list) {
         long[] arr = new long[list.size()];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = list.get(i);
@@ -231,9 +231,9 @@ public class UtilLibrary {
 
     public static long[] getPrimeFactors(long n) {
         if (isPrime(n)) {
-            return new long[]{1, n};
+            return new long[]{n};
         }
-        LinkedList<Long> factorsSmallerThanSqrt = new LinkedList<Long>();
+        ArrayList<Long> factorsSmallerThanSqrt = new ArrayList<Long>();
 
         for (int i = 2; i < (int)(Math.sqrt(n)) + 1; i++) {
             if (n%i == 0 && isPrime(i)) {
@@ -260,9 +260,9 @@ public class UtilLibrary {
 
     public static int[] getPrimeFactors(int n) {
         if (isPrime(n)) {
-            return new int[]{1, n};
+            return new int[]{n};
         }
-        LinkedList<Integer> factorsSmallerThanSqrt = new LinkedList<Integer>();
+        ArrayList<Integer> factorsSmallerThanSqrt = new ArrayList<Integer>();
 
         for (int i = 2; i < (int)(Math.sqrt(n)) + 1; i++) {
             if (n%i == 0 && isPrime(i)) {
@@ -920,31 +920,31 @@ public class UtilLibrary {
             return gcd(b, a);
         }
         int d = 0;
-        while (a%2 == 0 && b%2 == 0) {
-            a = a/2;
-            b = b/2;
+        while (a - (a>>1<<1) == 0 && b - (b>>1<<1) == 0) {
+            a = a>>1;
+            b = b>>1;
 
             d++;
         }
 
-        while (a%2 == 0) {
-            a = a/2;
+        while (a - (a>>1<<1) == 0) {
+            a = a>>1;
         }
-        while (b%2 == 0) {
-            b = b/2;
+        while (b - (b>>1<<1) == 0) {
+            b = b>>1;
         }
 
         while (a != b) {
             if (a > b) {
                 a = a - b;
-                while (a%2 == 0) {
-                    a = a/2;
+                while (a - (a>>1<<1) == 0) {
+                    a = a>>1;
                 }
             }
             else {
                 b = b - a;
-                while (b%2 == 0) {
-                    b = b/2;
+                while (b - (b>>1<<1) == 0) {
+                    b = b>>1;
                 }
             }
         }
@@ -1056,5 +1056,47 @@ public class UtilLibrary {
             jump = (jump/2) == 0 ? 1 : (jump/2);
         }
         return false;
+    }
+
+    public static int totient(int n) {
+        if (n <= 0) {
+            return -1;
+        }
+        if (isPrime(n)) {
+            return n-1;
+        }
+
+        int[] factors = UtilLibrary.getPrimeFactors(n);
+        int result = 1;
+        for (int i = 0; i < factors.length; i++) {
+            int power = 1;
+            int currFactor = factors[i];
+            while (i + 1 < factors.length && factors[i+1] == currFactor) {
+                i++;
+                power *= currFactor;
+            }
+            result *= power * (currFactor - 1);
+        }
+
+        return result;
+    }
+
+    public static int[] listTotients(int n) {
+        if (n < 0)
+            throw new IllegalArgumentException("Negative array size");
+        int[] result = new int[n + 1];
+        for (int i = 0; i <= n; i++)
+            result[i] = i;
+
+        for (int i = 2; i <= n; i++) {
+            if (result[i] == i) {  // i is prime
+                for (int j = i, bound = Integer.MAX_VALUE - i; j <= n; j += i) {
+                    result[j] -= result[j] / i;
+                    if (j > bound)
+                        break;
+                }
+            }
+        }
+        return result;
     }
 }

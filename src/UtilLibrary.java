@@ -1088,6 +1088,49 @@ public class UtilLibrary {
         return result;
     }
 
+
+    public static boolean[] primality = new boolean[0];
+    public static int[] primes = new int[0];
+
+    public static int totient(int n, boolean useFast) {
+        if (!useFast) {
+            return totient(n);
+        }
+
+        if (primality.length < n) {
+            primality = UtilLibrary.listPrimality(n);
+        }
+        if (primes.length < 1 || primes[primes.length-1] < n) {
+            primes = UtilLibrary.getPrimesUpTo(n);
+        }
+
+        if (n <= 0) {
+            return -1;
+        }
+        if (primality[n]) {
+            return n-1;
+        }
+
+
+
+        int result = n;
+        for (int i = 0; primes[i]*primes[i] < n; i++) {
+            int p = primes[i];
+            if (n % p == 0) {
+                while (n % p == 0) {
+                    n /= p;
+                }
+                result -= result/p;
+            }
+        }
+
+        if (n > 1) {
+            result -= result / n;
+        }
+
+        return result;
+    }
+
     public static int[] listTotients(int n) {
         if (n < 0)
             throw new IllegalArgumentException("Negative array size");
